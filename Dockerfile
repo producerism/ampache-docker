@@ -12,22 +12,11 @@ RUN wget -O - https://download.videolan.org/pub/debian/videolan-apt.asc|sudo apt
 RUN apt-get update
 
 # Need this environment variable otherwise mysql will prompt for passwords
-RUN DEBIAN_FRONTEND=noninteractive apt-get -y install mysql-server apache2 wget php5 php5-json php5-curl php5-mysqlnd pwgen lame libvorbis-dev vorbis-tools flac libmp3lame-dev libavcodec-extra* libfaac-dev libtheora-dev libvpx-dev libav-tools git
+RUN DEBIAN_FRONTEND=noninteractive apt-get -y install mysql-server apache2 wget php5 php5-json php5-curl php5-mysqlnd pwgen lame libvorbis-dev vorbis-tools flac libmp3lame-dev libavcodec-extra* libfaac-dev libtheora-dev libvpx-dev libav-tools git libgd3 libpng-dev libjpeg-dev libfreetype6-dev
     
 # Install other needed extensions
-RUN apt-get update && apt-get install -y libfreetype6 libjpeg62-turbo libmcrypt4 libpng12-0 --no-install-recommends && rm -rf /var/lib/apt/lists/*
-RUN buildDeps=" \
-		libfreetype6-dev \
-		libjpeg-dev \
-		libldap2-dev \
-		libmcrypt-dev \
-		libpng12-dev \
-		zlib1g-dev \
-	"; \
-	set -x \
-	&& apt-get update && apt-get install -y $buildDeps --no-install-recommends && rm -rf /var/lib/apt/lists/* \
-	&& docker-php-ext-configure gd --enable-gd-native-ttf --with-jpeg-dir=/usr/lib/x86_64-linux-gnu --with-png-dir=/usr/lib/x86_64-linux-gnu --with-freetype-dir=/usr/lib/x86_64-linux-gnu \
-	&& docker-php-ext-install gd \
+RUN docker-php-ext-configure gd --enable-gd-native-ttf --with-jpeg-dir=/usr/lib/x86_64-linux-gnu --with-png-dir=/usr/lib/x86_64-linux-gnu --with-freetype-dir=/usr/lib/x86_64-linux-gnu \
+	&& docker-php-ext-install gd
 
 # Install composer for dependency management
 RUN php -r "readfile('https://getcomposer.org/installer');" | php && \
