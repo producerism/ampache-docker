@@ -1,5 +1,4 @@
-FROM ubuntu:14.04
-MAINTAINER Afterster
+FROM php:7-apache
 
 RUN echo 'deb http://download.videolan.org/pub/debian/stable/ /' >> /etc/apt/sources.list
 RUN echo 'deb-src http://download.videolan.org/pub/debian/stable/ /' >> /etc/apt/sources.list
