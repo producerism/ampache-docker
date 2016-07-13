@@ -5,7 +5,7 @@ RUN echo 'deb-src http://download.videolan.org/pub/debian/stable/ /' >> /etc/apt
 RUN echo 'deb http://archive.ubuntu.com/ubuntu trusty main multiverse' >> /etc/apt/sources.list
 
 RUN apt-get update
-RUN apt-get -y upgrade
+#RUN apt-get -y upgrade
 RUN DEBIAN_FRONTEND=noninteractive apt-get -y install wget inotify-tools
 RUN wget -O - https://download.videolan.org/pub/debian/videolan-apt.asc|sudo apt-key add -
 RUN apt-get update
