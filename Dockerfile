@@ -18,6 +18,12 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get -y install mysql-server apache2 wget 
 #RUN docker-php-ext-configure gd --enable-gd-native-ttf --with-jpeg-dir=/usr/lib/x86_64-linux-gnu --with-png-dir=/usr/lib/x86_64-linux-gnu --with-freetype-dir=/usr/lib/x86_64-linux-gnu \
 #	&& docker-php-ext-install gd
 
+RUN apt-get install -y libfreetype6-dev
+RUN apt-get install -y libgd-dev
+RUN docker-php-ext-configure gd --with-freetype-dir=/usr
+# exif pour gregwar/image ?
+RUN docker-php-ext-install gd exif
+
 # Install composer for dependency management
 RUN php -r "readfile('https://getcomposer.org/installer');" | php && \
     mv composer.phar /usr/local/bin/composer
