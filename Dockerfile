@@ -1,6 +1,6 @@
 FROM ubuntu:14.04
 
-
+# add sources
 RUN echo 'deb http://download.videolan.org/pub/debian/stable/ /' >> /etc/apt/sources.list
 RUN echo 'deb-src http://download.videolan.org/pub/debian/stable/ /' >> /etc/apt/sources.list
 RUN echo 'deb http://archive.ubuntu.com/ubuntu trusty main multiverse' >> /etc/apt/sources.list
@@ -13,10 +13,6 @@ RUN apt-get update
 
 # Need this environment variable otherwise mysql will prompt for passwords
 RUN DEBIAN_FRONTEND=noninteractive apt-get -y install mysql-server apache2 wget php5 php5-json php5-curl php5-mysqlnd pwgen lame libvorbis-dev vorbis-tools flac libmp3lame-dev libavcodec-extra* libfaac-dev libtheora-dev libvpx-dev libav-tools git libgd3 libpng-dev libjpeg-dev libfreetype6-dev
-    
-# Install other needed extensions
-#RUN docker-php-ext-configure gd --enable-gd-native-ttf --with-jpeg-dir=/usr/lib/x86_64-linux-gnu --with-png-dir=/usr/lib/x86_64-linux-gnu --with-freetype-dir=/usr/lib/x86_64-linux-gnu \
-#	&& docker-php-ext-install gd
 
 # Install and Test PHP
 RUN apt-get install --no-install-recommends -y \
@@ -37,18 +33,11 @@ RUN apt-get install --no-install-recommends -y \
 RUN apt-get -y autoremove && apt-get clean && apt-get autoclean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-#RUN apt-get install -y libfreetype6-dev
-#RUN apt-get install -y libgd-dev
-#RUN docker-php-ext-configure gd --with-freetype-dir=/usr
-# exif pour gregwar/image ?
-#RUN docker-php-ext-install gd exif
-
 # Install composer for dependency management
 RUN php -r "readfile('https://getcomposer.org/installer');" | php && \
     mv composer.phar /usr/local/bin/composer
 
-# For local testing / faster builds
-# COPY master.tar.gz /opt/master.tar.gz
+# download latest develop branch of ampache
 ADD https://github.com/ampache/ampache/archive/develop.tar.gz /opt/develop.tar.gz
 
 # extraction / installation
