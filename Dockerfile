@@ -28,7 +28,7 @@ RUN apt-get install --no-install-recommends -y \
 		php-pear && \
 		php --version && \
 		php -m
-		
+
 # Tidy up
 RUN apt-get -y autoremove && apt-get clean && apt-get autoclean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
@@ -45,6 +45,11 @@ RUN rm -rf /var/www/* && \
     tar -C /var/www -xf /opt/develop.tar.gz ampache-develop --strip=1 && \
     cd /var/www && composer install --prefer-source --no-interaction && \
     chown -R www-data /var/www
+
+# copy defaults (install.lib.php file)
+ADD install.lib.php /install.lib.php
+RUN cp /install.lib.php /var/www/lib/install.lib.php
+RUN rm /install.lib.php
 
 # setup mysql like this project does it: https://github.com/tutumcloud/tutum-docker-mysql
 # Remove pre-installed database

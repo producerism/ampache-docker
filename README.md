@@ -13,6 +13,15 @@ docker run --name=ampache -d -v /path/to/your/music:/media:ro -p 80:80 ampache/a
 - Click the "Write" buttons from BOTTOM to TOP
 - Do this because it is the last one that needs the username and password and they get blanked out on every click
 
-## Thanks to
-- @ericfrederich for his original work
-- @velocity303 and @goldy for the other ampache-docker inspiration
+## Other Features
+ - gd for php (this was missing from main branch)
+ - ampache defaults (install.lib.php)
+ - avconv for transcoding
+
+## Volumes
+These are all optional.
+ - /etc/mysql -- mysql config
+ - /var/lib/mysql -- mysql database
+ - /media -- music, videos, etc.
+ - /var/www/config -- ampache config
+ - /var/www/themes -- ampache themes
